@@ -13,4 +13,4 @@ windows:
 	ghc --make -no-hs-main -shared -static -fno-shared-implib -lHSrts-ghc7.6.3 -optl-Wl,-rpath,"/cygdrive/c/Program Files (x86)/Haskell Platform/2013.2.0.0/lib" haskell/Simple.hs -o bin/simple.dll
 
 clean:
-	rm -f haskell/*.o haskell/*.h haskell/*.hi *.log bin/*
+	rm -f haskell/*.o haskell/*.h haskell/*.hi *.log
