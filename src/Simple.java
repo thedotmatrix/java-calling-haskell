@@ -1,4 +1,4 @@
-import javax.xml.stream.XMLStreamException;
+import javax.xml.bind.JAXBException;
 
 import com.sun.jna.Library;
 import com.sun.jna.Native;
@@ -8,6 +8,7 @@ import com.sun.jna.ptr.PointerByReference;
 
 public class Simple 
 {
+	// represents the shared haskell library in the bin folder
     public interface SimpleHS extends Library
     {
     	SimpleHS INSTANCE = (SimpleHS) Native.loadLibrary("simple", SimpleHS.class);
@@ -20,6 +21,9 @@ public class Simple
     	void hs_exit();
     }
 
+    // initializes the haskell ffi environment
+    // runs a basic call to the haskell library and processes it
+    // shutsdown the haskell ffi environment
     public static void main(String[] args) 
     {
         init();
@@ -27,6 +31,7 @@ public class Simple
         SimpleHS.INSTANCE.hs_exit();
     }
     
+    // just a call to hs_init
     public static void init()
     {
     	// int* argc
@@ -41,6 +46,8 @@ public class Simple
         SimpleHS.INSTANCE.hs_init(pArgc, pArgv);
     }
     
+    // gets the xml string for a person (agreed data structure)
+    // TODO needs xml schema
     public static void run()
     {
     	System.out.println("Getting haskell cstring...");
@@ -49,15 +56,15 @@ public class Simple
         SimpleHS.INSTANCE.free_hs(s);
         System.out.println("String = " + s);
         System.out.println("Parsing XML String...");
-        STAX xml = new STAX();
-        try 
-        {
-			Person p = xml.process(s);
+        try
+		{
+			XmlProcessor<Person> processor = new XmlProcessor<Person>(Person.class);
+			Person p = processor.unwrap(s);
 			System.out.println(p.toString());
 		} 
-        catch (XMLStreamException e) 
-        {
-			// TODO Auto-generated catch block
+        catch (JAXBException e)
+		{
+        	System.err.println("Could not parse xml string into a person");
 			e.printStackTrace();
 		}
     }

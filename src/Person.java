@@ -1,29 +1,28 @@
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.*;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Person 
 {
+	@XmlAttribute
 	String name;
+	@XmlAttribute
 	int age;
+	@XmlElement(name = "person")
 	List<Person> children;
 	
-	public Person(String name, int age)
+	public Person()
 	{
-		this.name = name;
-		this.age = age;
-		children = new ArrayList<Person>();
+		this.children = new ArrayList<Person>();
 	}
 	
-	public void addChild(Person p)
-	{
-		this.children.add(p);
-	}
-	
+	// Pretty printing of recursive data structure
 	public String toString()
 	{
 		return this.toString(0);
 	}
-	
 	private String toString(int depth)
 	{
 		String depthtabs = "";

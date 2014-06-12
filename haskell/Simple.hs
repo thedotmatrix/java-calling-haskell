@@ -15,15 +15,15 @@ data Person = Person 	{
 instance XmlPickler Person where xpickle = xpPerson
 xpPerson ::	PU Person
 xpPerson = 
-	xpElem "PERSON" $
+	xpElem "person" $
 	xpWrap 	( uncurry3 Person
 			, \ t ->	(	name t, 
 							age t,
 							children t
 						)
 		) $
-	xpTriple	(xpAttr "NAME" 	xpText)
-				(xpAttr "AGE" 	xpPrim)
+	xpTriple	(xpAttr "name" 	xpText)
+				(xpAttr "age" 	xpPrim)
 				(xpList xpickle)
 {- WORKING VERSION
 instance XmlPickler Person where xpickle = xpPerson

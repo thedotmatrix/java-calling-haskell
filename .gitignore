@@ -1,0 +1,5 @@
+haskell/*.h
+haskell/*.hi
+haskell/*.o
+bin/*
+.settings
